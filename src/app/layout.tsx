@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Header from '@/app/_libs/components/header/header';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { Experimental_CssVarsProvider } from '@mui/material';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
+import { CssVarsProvider } from '@mui/material';
 import MuiTheme from '@/app/_libs/mui-theme';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { APP_MANIFEST } from '@/app/_libs/config';
@@ -136,7 +136,7 @@ export default function RootLayout({
             prepend: true,
           }}
         >
-          <Experimental_CssVarsProvider theme={MuiTheme}>
+          <CssVarsProvider theme={MuiTheme}>
             <WPNUmamiProvider>
               <section className="flex flex-col sm:mb-l">
                 <div className="h-header block">
@@ -181,7 +181,7 @@ export default function RootLayout({
                 </Script>
               )}
             </WPNUmamiProvider>
-          </Experimental_CssVarsProvider>
+          </CssVarsProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

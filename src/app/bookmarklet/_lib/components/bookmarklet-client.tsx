@@ -182,21 +182,23 @@ export default function BookmarkletClient() {
           multiline
           maxRows={8}
           margin="normal"
-          InputProps={{
-            readOnly: true,
-            endAdornment: (
-              <InputAdornment position="end">
-                <MdIconButton onClick={handleCopyButtonClick}>
-                  {error ? (
-                    <ErrorIcon color="error" />
-                  ) : copied ? (
-                    <DoneIcon color="success" />
-                  ) : (
-                    <ContentCopyIcon />
-                  )}
-                </MdIconButton>
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              readOnly: true,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdIconButton onClick={handleCopyButtonClick}>
+                    {error ? (
+                      <ErrorIcon color="error" />
+                    ) : copied ? (
+                      <DoneIcon color="success" />
+                    ) : (
+                      <ContentCopyIcon />
+                    )}
+                  </MdIconButton>
+                </InputAdornment>
+              ),
+            },
           }}
         />
       </div>

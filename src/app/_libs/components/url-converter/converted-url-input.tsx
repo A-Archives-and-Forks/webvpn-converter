@@ -100,22 +100,25 @@ export default function ConvertedUrlInput({
           minRows={lgMediaQuery ? 4 : smMediaQuery ? '' : 3}
           margin="normal"
           type="url"
-          InputProps={{
-            type: 'url',
-            autoCapitalize: 'none',
-            autoCorrect: 'off',
-            spellCheck: false,
-            readOnly: true,
-            startAdornment: lgMediaQuery && inputValue && (
-              <InputAdornment position="start">
-                <InputAdornmentComponents />
-              </InputAdornment>
-            ),
-            endAdornment: !lgMediaQuery && (
-              <InputAdornment position="end">
-                <InputAdornmentComponents />
-              </InputAdornment>
-            ),
+          slotProps={{
+            htmlInput: {
+              autoCapitalize: 'none',
+              autoCorrect: 'off',
+              spellCheck: false,
+            },
+            input: {
+              readOnly: true,
+              startAdornment: lgMediaQuery && inputValue && (
+                <InputAdornment position="start">
+                  <InputAdornmentComponents />
+                </InputAdornment>
+              ),
+              endAdornment: !lgMediaQuery && (
+                <InputAdornment position="end">
+                  <InputAdornmentComponents />
+                </InputAdornment>
+              ),
+            },
           }}
         />
       </>

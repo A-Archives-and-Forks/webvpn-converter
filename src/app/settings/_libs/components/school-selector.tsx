@@ -84,20 +84,24 @@ const schoolListRenderInput = ({
   loading?: boolean;
 }) => {
   return (
-    // <div ref={params.InputProps.ref}>
-    //   <MdOutlinedTextField {...params.inputProps} label="选择学校" />
+    // <div ref={params.slotProps.input.ref}>
+    //   <MdOutlinedTextField {...params.slotProps.htmlInput} label="选择学校" />
     // </div>
     <TextField
       {...params}
       label="选择学校"
-      InputProps={{
-        ...params.InputProps,
-        endAdornment: (
-          <>
-            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-            {params.InputProps.endAdornment}
-          </>
-        ),
+      slotProps={{
+        input: {
+          ...params.slotProps.input,
+          endAdornment: (
+            <>
+              {loading ? <CircularProgress color="inherit" size={20} /> : null}
+              {params.slotProps.input.endAdornment}
+            </>
+          ),
+        },
+        htmlInput: params.slotProps.htmlInput,
+        inputLabel: params.slotProps.inputLabel,
       }}
     />
   );

@@ -69,18 +69,21 @@ export default function OriginalUrlInput({
         minRows={lgMediaQuery ? 4 : ''}
         margin="normal"
         type="url"
-        InputProps={{
-          type: 'url',
-          autoCapitalize: 'none',
-          autoCorrect: 'off',
-          spellCheck: false,
-          endAdornment: (
-            <InputAdornment position="end">
-              <MdIconButton title="粘贴" onClick={handlePasteButtonClick}>
-                <ContentPasteIcon titleAccess="粘贴" />
-              </MdIconButton>
-            </InputAdornment>
-          ),
+        slotProps={{
+          htmlInput: {
+            autoCapitalize: 'none',
+            autoCorrect: 'off',
+            spellCheck: false,
+          },
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <MdIconButton title="粘贴" onClick={handlePasteButtonClick}>
+                  <ContentPasteIcon titleAccess="粘贴" />
+                </MdIconButton>
+              </InputAdornment>
+            ),
+          },
         }}
       />
       <SnackbarProvider />

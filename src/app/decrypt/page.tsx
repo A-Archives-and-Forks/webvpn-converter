@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   title: '还原链接',
 };
 
-export default function Home() {
-  const cookieStore = cookies();
+export default async function Home() {
+  const cookieStore = await cookies();
   const selectedSchool = cookieStore.get('selectedSchool');
 
   if (!selectedSchool) {
