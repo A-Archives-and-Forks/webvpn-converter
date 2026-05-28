@@ -3,8 +3,6 @@
 import MdFab from '@/app/_libs/ui/floating-action-buttons';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkletRaw from '~bookmarklet/dist/index.js.bookmarklet.export';
-import { useAtomValue } from 'jotai';
-import { selectedSchoolAtom } from '@/app/_libs/atoms';
 import React, {
   useCallback,
   useEffect,
@@ -22,10 +20,9 @@ import { enqueueSnackbar, SnackbarProvider } from 'notistack';
 import ErrorIcon from '@mui/icons-material/Error';
 import DoneIcon from '@mui/icons-material/Done';
 import { MdIconButton } from '@/app/_libs/ui/icon-button';
-import HomeStatus from '@/app/_libs/components/home-status';
+import type { School } from '@/app/_libs/types';
 
-export default function BookmarkletClient() {
-  const selectedSchool = useAtomValue(selectedSchoolAtom);
+export default function BookmarkletClient({ school }: { school: School }) {
   const bookmarkletRaw = BookmarkletRaw;
   const [bookmarkletHref, setBookmarkletHref] = useState<string>('');
   const [hasMounted, setHasMounted] = useState(false);
@@ -38,8 +35,8 @@ export default function BookmarkletClient() {
       !(bookmarkletHref !== '') ||
       !hasMounted ||
       !bookmarkletRaw ||
-      (hasMounted && !selectedSchool),
-    [bookmarkletHref, hasMounted, selectedSchool, bookmarkletRaw],
+      (hasMounted && !school),
+    [bookmarkletHref, hasMounted, school, bookmarkletRaw],
   );
 
   const { copy, error, copied } = useCopy({
@@ -56,21 +53,21 @@ export default function BookmarkletClient() {
     try {
       const replacedHost = bookmarkletRaw.replace(
         BOOKMARKLET_CONFIG.HOST_SEPRATOR,
-        selectedSchool?.host || '',
+        school.host || '',
       );
       const replacedKey = replacedHost.replace(
         BOOKMARKLET_CONFIG.KEY_SEPRATOR,
-        selectedSchool?.crypto_key || '',
+        school.crypto_key || '',
       );
       const replacedIv = replacedKey.replace(
         BOOKMARKLET_CONFIG.IV_SEPRATOR,
-        selectedSchool?.crypto_iv || '',
+        school.crypto_iv || '',
       );
       return replacedIv;
     } catch (e) {
       return (e as Error).toString();
     }
-  }, [selectedSchool, bookmarkletRaw]);
+  }, [school, bookmarkletRaw]);
 
   const handleSetBookmarkHref = useCallback(() => {
     setBookmarkletHref(handleBookmarkletParse);
@@ -120,7 +117,6 @@ export default function BookmarkletClient() {
       <div className="flex flex-col lg:flex-row gap-8">
         <section className="mt-8 mb-4 grow">
           <p className="leading-3">适用于</p>
-          <HomeStatus />
           {loading ? (
             <p className="inline-flex flex-row items-center">
               <CircularProgress color="inherit" size={40} className="mx-2" />
@@ -143,9 +139,7 @@ export default function BookmarkletClient() {
                   className="w-full"
                 >
                   <span className="hidden">WebVPN 转换</span>
-                  {selectedSchool?.name && (
-                    <span className="hidden"> | {selectedSchool?.name}</span>
-                  )}
+                  <span className="hidden"> | {school.name}</span>
                   <span slot="icon">
                     {isButtonClicked ? <CloseIcon /> : <BookmarkAddIcon />}
                   </span>

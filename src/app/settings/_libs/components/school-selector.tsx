@@ -8,7 +8,6 @@ import {
   schoolListMatcher,
   schoolListSorter,
 } from '@/app/settings/_libs/hooks/school-select';
-import webvpnData from '~/data/webvpn.json';
 import type { AutocompleteRenderInputParams } from '@mui/material';
 import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -18,7 +17,7 @@ import { selectedSchoolAtom } from '@/app/_libs/atoms';
 import { School } from '@/app/_libs/types';
 
 export default function SchoolSelector() {
-  const schoolData = buildSchoolList(webvpnData);
+  const schoolData = buildSchoolList();
   const [selectedSchool, setSelectedSchool] = useAtom(selectedSchoolAtom);
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -54,9 +53,16 @@ export default function SchoolSelector() {
     <>
       <Autocomplete
         options={handleOptions}
-        filterOptions={(options, { inputValue }) =>
-          options.filter((option) => schoolListMatcher(option, inputValue))
-        }
+        filterOptions={(options, { inputValue }) => {
+          const isShowingSelectedSchool =
+            selectedSchool && schoolListLabel(selectedSchool) === inputValue;
+          if (!inputValue.trim() || isShowingSelectedSchool) {
+            return options;
+          }
+          return options.filter((option) =>
+            schoolListMatcher(option, inputValue),
+          );
+        }}
         getOptionLabel={schoolListLabel}
         groupBy={schoolListGroupby}
         renderInput={(params) =>
@@ -67,9 +73,8 @@ export default function SchoolSelector() {
         onChange={handleSchoolChange}
         loading={!isSelectorReady}
         openOnFocus
-        autoSelect
+        selectOnFocus
         blurOnSelect="mouse"
-        disableCloseOnSelect
         className="pt-6"
       />
     </>

@@ -34,6 +34,7 @@ export default function SchoolCustomization({
   const buildCustomSchool = useMemo((): School => {
     const name = '自定义';
     return {
+      code: 'custom',
       province: null,
       name,
       host,

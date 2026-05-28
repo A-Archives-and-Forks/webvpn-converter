@@ -1,5 +1,6 @@
 // Define the data structure of the school list
 export interface School {
+  code: string;
   province: string | null;
   name: string;
   host: string;
@@ -23,10 +24,12 @@ export interface ConvertConfig {
   iv?: string;
 }
 
-type UrlConvertMode = 'encrypt' | 'decrypt';
+export type UrlConvertMode = 'encrypt' | 'decrypt';
+export type SchoolService = 'encrypt' | 'decrypt' | 'bookmarklet';
 
 export interface ConverterConfig {
   mode?: UrlConvertMode;
+  school?: School;
 }
 
 type SettingsMode = 'settings' | 'init';
@@ -35,4 +38,5 @@ type SettingsType = 'page' | 'modal';
 export interface SettingsConfig {
   mode?: SettingsMode;
   type?: SettingsType;
+  service?: SchoolService;
 }
